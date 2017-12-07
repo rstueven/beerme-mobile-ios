@@ -12,6 +12,7 @@
 		79C079E91FD99AAC00128C6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C079E71FD99AAC00128C6D /* Main.storyboard */; };
 		79C079EB1FD99AAC00128C6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79C079EA1FD99AAC00128C6D /* Assets.xcassets */; };
 		79C079EE1FD99AAC00128C6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C079EC1FD99AAC00128C6D /* LaunchScreen.storyboard */; };
+		79F035C01FD9DB7200F2483D /* beerme.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 79F035BF1FD9DB6400F2483D /* beerme.sqlite3 */; };
 		ECB3433D57310735EE38FFC2 /* Pods_Beer_Me__mobile_for_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 989E321C6BC19C87CB309116 /* Pods_Beer_Me__mobile_for_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 		79C079EA1FD99AAC00128C6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79C079ED1FD99AAC00128C6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79C079EF1FD99AAC00128C6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79F035BF1FD9DB6400F2483D /* beerme.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = beerme.sqlite3; sourceTree = "<group>"; };
 		875F43A2B731A79D1B6DF826 /* Pods-Beer Me! mobile for iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beer Me! mobile for iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Beer Me! mobile for iOS/Pods-Beer Me! mobile for iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		989E321C6BC19C87CB309116 /* Pods_Beer_Me__mobile_for_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Beer_Me__mobile_for_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -69,6 +71,7 @@
 		79C079E21FD99AAC00128C6D /* Beer Me! mobile for iOS */ = {
 			isa = PBXGroup;
 			children = (
+				79F035BE1FD9DB4000F2483D /* Database */,
 				79C079E31FD99AAC00128C6D /* AppDelegate.swift */,
 				79C079E51FD99AAC00128C6D /* ViewController.swift */,
 				79C079E71FD99AAC00128C6D /* Main.storyboard */,
@@ -77,6 +80,14 @@
 				79C079EF1FD99AAC00128C6D /* Info.plist */,
 			);
 			path = "Beer Me! mobile for iOS";
+			sourceTree = "<group>";
+		};
+		79F035BE1FD9DB4000F2483D /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				79F035BF1FD9DB6400F2483D /* beerme.sqlite3 */,
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 		D3C8C6D263F08F019DCB7100 /* Pods */ = {
@@ -150,6 +161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79F035C01FD9DB7200F2483D /* beerme.sqlite3 in Resources */,
 				79C079EE1FD99AAC00128C6D /* LaunchScreen.storyboard in Resources */,
 				79C079EB1FD99AAC00128C6D /* Assets.xcassets in Resources */,
 				79C079E91FD99AAC00128C6D /* Main.storyboard in Resources */,

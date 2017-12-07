@@ -15,14 +15,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//        let allBundles = Bundle.allBundles
-//        for bundle in allBundles {
-//            print(bundle)
-//        }
-        
         if let db = checkAndInitDatabase() {
             print("INFO: db initialized")
             print("DESC: \(db.description)")
+            let breweries = Table("brewery")
+            let breweryId = Expression<Int64>("_id")
+            let breweryName = Expression<String>("name")
+            do {
+                for brewery in try db.prepare(breweries) {
+                    print("\(brewery[breweryId]) \(brewery[breweryName])")
+                }
+            } catch let error as NSError {
+                print("ERROR: \(error.description)")
+            }
+        } else {
+            print("ERROR: failed to initialize db")
         }
     }
 

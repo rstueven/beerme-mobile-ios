@@ -10,26 +10,17 @@ import UIKit
 import SQLite
 
 class ViewController: UIViewController {
+    var tables: [String: Table] = ["brewery": Table("brewery"), "beer": Table("beer"), "style": Table("style")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         if let db = checkAndInitDatabase() {
-            print("INFO: db initialized")
-            print("DESC: \(db.description)")
-            let breweries = Table("brewery")
-            let breweryId = Expression<Int64>("_id")
-            let breweryName = Expression<String>("name")
-            do {
-                for brewery in try db.prepare(breweries) {
-                    print("\(brewery[breweryId]) \(brewery[breweryName])")
-                }
-            } catch let error as NSError {
-                print("ERROR: \(error.description)")
-            }
+            print("DATABASE FILE: \(db.description)")
+            updateDatabase(db: db)
         } else {
-            print("ERROR: failed to initialize db")
+            print("ERROR in viewDidLoad(): failed to initialize db")
         }
     }
 
@@ -45,31 +36,45 @@ class ViewController: UIViewController {
 
         guard documentsURL.count != 0 else {
             // TODO: Actual error handling
-            print("ERROR: Could not find documents URL")
+            print("ERROR in checkAndInitDatabase(): Could not find documents URL")
             return nil
         }
 
         let dbURL = documentsURL.first!.appendingPathComponent(dbFilename)
 
         if !((try? dbURL.checkResourceIsReachable()) ?? false) {
-            print("INFO: Database does not exist in documents folder")
+            print("INFO in checkAndInitDatabase(): Database does not exist in documents folder")
             let bundleURL = Bundle.main.resourceURL?.appendingPathComponent(dbFilename)
-            print("atPath: \(bundleURL?.path ?? "N/A")")
-            print("toPath: \(dbURL.path)")
             do {
                 try fileManager.copyItem(atPath: (bundleURL?.path)!, toPath: dbURL.path)
             } catch let error as NSError {
-                print("ERROR: Can't copy file: \(error.description)")
+                print("ERROR in checkAndInitDatabase(): Can't copy file: \(error.description)")
             }
-        } else {
-            print("INFO: Database exists in documents folder")
         }
-
+        
         do {
             return try Connection(dbURL.path, readonly: true)
         } catch let error as NSError {
-            print("ERROR: DB connection failed: \(error.description)")
+            print("ERROR in checkAndInitDatabase(): DB connection failed: \(error.description)")
             return nil
+        }
+    }
+    
+    func updateDatabase(db: Connection) {
+        for table in tables.keys {
+            updateTable(db, table: table)
+        }
+    }
+    
+    func updateTable(_ db: Connection, table: String) {
+        let updated = Expression<String>("updated")
+        let tableObj = tables[table]
+        do {
+            let maxUpdated = try db.scalar(tableObj!.select(updated.max))
+            print("\(table): \(maxUpdated!)")
+            // TODO: Download updates
+        } catch let error as NSError {
+            print("ERROR in updateTable(\(table) : DB connection failed: \(error.description)")
         }
     }
 }

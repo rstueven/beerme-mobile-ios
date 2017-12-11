@@ -82,7 +82,21 @@ class ViewController: UIViewController {
                     } else {
                         if let unwrappedData = data {
                             let dataString = NSString(data: unwrappedData, encoding: String.Encoding.utf8.rawValue)
-                            print(dataString!)
+                            let stringSeparator = "#####"
+                            if let contentArray = dataString?.components(separatedBy: stringSeparator) {
+                                if contentArray.count >= 1 && contentArray[0].count > 1 {
+                                    print("Brewery")
+                                    self.updateBreweryData(contentArray[0])
+                                }
+                                if contentArray.count >= 2 && contentArray[1].count > 1 {
+                                    print("Beer")
+                                    self.updateBeerData(contentArray[1])
+                                }
+                                if contentArray.count >= 3 && contentArray[2].count > 1{
+                                    print("Style")
+                                    self.updateStyleData(contentArray[2])
+                                }
+                            }
                         } else {
                             print("ERROR in updateDatabase: unwrappedData failed")
                         }
@@ -92,8 +106,6 @@ class ViewController: UIViewController {
             } else {
                 print("ERROR in updateDatabase(): URL failed")
             }
-            
-            print("LOADING")
         } catch let error as NSError {
             print("ERROR in updateDatabase() : DB connection failed: \(error.description)")
         }
@@ -110,4 +122,21 @@ class ViewController: UIViewController {
 //            print("ERROR in updateTable(\(table) : DB connection failed: \(error.description)")
 //        }
 //    }
+    
+    func updateBreweryData(_ data: String) {
+        let recordStrings = data.components(separatedBy: "\n")
+        for recordString in recordStrings {
+            print(recordString)
+            let record = recordString.components(separatedBy: "|")
+            print(record)
+        }
+    }
+    
+    func updateBeerData(_ data: String) {
+        print(data)
+    }
+    
+    func updateStyleData(_ data: String) {
+        print(data)
+    }
 }

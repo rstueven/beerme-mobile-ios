@@ -18,7 +18,9 @@ class ViewController: UIViewController {
         
         if let db = checkAndInitDatabase() {
             print("DATABASE FILE: \(db.description)")
-            updateDatabase(db: db)
+            DispatchQueue.main.async {
+                self.updateDatabase(db: db)
+            }
         } else {
             print("ERROR in viewDidLoad(): failed to initialize db")
         }
@@ -61,20 +63,51 @@ class ViewController: UIViewController {
     }
     
     func updateDatabase(db: Connection) {
-        for table in tables.keys {
-            updateTable(db, table: table)
+//        for table in tables.keys {
+//            updateTable(db, table: table)
+//        }
+        
+        let updated = Expression<String>("updated")
+        let tableObj = tables["brewery"]
+        do {
+            let maxUpdated = try db.scalar(tableObj!.select(updated.max))
+            print(maxUpdated!)
+            
+            if let url = URL(string: "http://beerme.com/mobile/v3/dbUpdate.php?t=\(maxUpdated!)") {
+                let request = NSMutableURLRequest(url: url)
+                let task = URLSession.shared.dataTask(with: request as URLRequest) {
+                    data, response, error in
+                    if error != nil {
+                        print("ERROR in updateDatabase.dataTask(): \(error!)")
+                    } else {
+                        if let unwrappedData = data {
+                            let dataString = NSString(data: unwrappedData, encoding: String.Encoding.utf8.rawValue)
+                            print(dataString!)
+                        } else {
+                            print("ERROR in updateDatabase: unwrappedData failed")
+                        }
+                    }
+                }
+                task.resume()
+            } else {
+                print("ERROR in updateDatabase(): URL failed")
+            }
+            
+            print("LOADING")
+        } catch let error as NSError {
+            print("ERROR in updateDatabase() : DB connection failed: \(error.description)")
         }
     }
     
-    func updateTable(_ db: Connection, table: String) {
-        let updated = Expression<String>("updated")
-        let tableObj = tables[table]
-        do {
-            let maxUpdated = try db.scalar(tableObj!.select(updated.max))
-            print("\(table): \(maxUpdated!)")
-            // TODO: Download updates
-        } catch let error as NSError {
-            print("ERROR in updateTable(\(table) : DB connection failed: \(error.description)")
-        }
-    }
+//    func updateTable(_ db: Connection, table: String) {
+//        let updated = Expression<String>("updated")
+//        let tableObj = tables[table]
+//        do {
+//            let maxUpdated = try db.scalar(tableObj!.select(updated.max))
+//            print("\(table): \(maxUpdated!)")
+//            // TODO: Download updates
+//        } catch let error as NSError {
+//            print("ERROR in updateTable(\(table) : DB connection failed: \(error.description)")
+//        }
+//    }
 }

@@ -86,15 +86,15 @@ class ViewController: UIViewController {
                             if let contentArray = dataString?.components(separatedBy: stringSeparator) {
                                 if contentArray.count >= 1 && contentArray[0].count > 1 {
                                     print("Brewery")
-                                    self.updateBreweryData(contentArray[0])
+                                    self.updateBreweryData(db, contentArray[0])
                                 }
                                 if contentArray.count >= 2 && contentArray[1].count > 1 {
                                     print("Beer")
-                                    self.updateBeerData(contentArray[1])
+                                    self.updateBeerData(db, contentArray[1])
                                 }
                                 if contentArray.count >= 3 && contentArray[2].count > 1{
                                     print("Style")
-                                    self.updateStyleData(contentArray[2])
+                                    self.updateStyleData(db, contentArray[2])
                                 }
                             }
                         } else {
@@ -123,20 +123,23 @@ class ViewController: UIViewController {
 //        }
 //    }
     
-    func updateBreweryData(_ data: String) {
+    func updateBreweryData(_ db:Connection, _ data: String) {
+        var brewery:Brewery
+        
         let recordStrings = data.components(separatedBy: "\n")
         for recordString in recordStrings {
-            print(recordString)
-            let record = recordString.components(separatedBy: "|")
-            print(record)
+            brewery = Brewery()
+            brewery.initFromCSV(recordString)
+            print(brewery.description)
+            brewery.save(db)
         }
     }
     
-    func updateBeerData(_ data: String) {
+    func updateBeerData(_ db:Connection, _ data: String) {
         print(data)
     }
     
-    func updateStyleData(_ data: String) {
+    func updateStyleData(_ db:Connection, _ data: String) {
         print(data)
     }
 }

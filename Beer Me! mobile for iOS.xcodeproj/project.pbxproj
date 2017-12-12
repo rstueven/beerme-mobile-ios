@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79B5D95E1FE07BC0001CDF0A /* Brewery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B5D95D1FE07BC0001CDF0A /* Brewery.swift */; };
 		79C079E41FD99AAC00128C6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C079E31FD99AAC00128C6D /* AppDelegate.swift */; };
 		79C079E61FD99AAC00128C6D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C079E51FD99AAC00128C6D /* ViewController.swift */; };
 		79C079E91FD99AAC00128C6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C079E71FD99AAC00128C6D /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		4373D4AC23477F7FA9C2577E /* Pods-Beer Me! mobile for iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beer Me! mobile for iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Beer Me! mobile for iOS/Pods-Beer Me! mobile for iOS.release.xcconfig"; sourceTree = "<group>"; };
+		79B5D95D1FE07BC0001CDF0A /* Brewery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brewery.swift; sourceTree = "<group>"; };
 		79C079E01FD99AAC00128C6D /* Beer Me! mobile for iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Beer Me! mobile for iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79C079E31FD99AAC00128C6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79C079E51FD99AAC00128C6D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				79C079EA1FD99AAC00128C6D /* Assets.xcassets */,
 				79C079EC1FD99AAC00128C6D /* LaunchScreen.storyboard */,
 				79C079EF1FD99AAC00128C6D /* Info.plist */,
+				79B5D95D1FE07BC0001CDF0A /* Brewery.swift */,
 			);
 			path = "Beer Me! mobile for iOS";
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79C079E61FD99AAC00128C6D /* ViewController.swift in Sources */,
+				79B5D95E1FE07BC0001CDF0A /* Brewery.swift in Sources */,
 				79C079E41FD99AAC00128C6D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

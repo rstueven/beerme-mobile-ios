@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		797367401FE1AF1A000A3430 /* DataEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7973673F1FE1AF1A000A3430 /* DataEngine.swift */; };
 		79B5D95E1FE07BC0001CDF0A /* Brewery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B5D95D1FE07BC0001CDF0A /* Brewery.swift */; };
 		79C079E41FD99AAC00128C6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C079E31FD99AAC00128C6D /* AppDelegate.swift */; };
 		79C079E61FD99AAC00128C6D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C079E51FD99AAC00128C6D /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		4373D4AC23477F7FA9C2577E /* Pods-Beer Me! mobile for iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beer Me! mobile for iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Beer Me! mobile for iOS/Pods-Beer Me! mobile for iOS.release.xcconfig"; sourceTree = "<group>"; };
+		7973673F1FE1AF1A000A3430 /* DataEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEngine.swift; sourceTree = "<group>"; };
 		79B5D95D1FE07BC0001CDF0A /* Brewery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brewery.swift; sourceTree = "<group>"; };
 		79C079E01FD99AAC00128C6D /* Beer Me! mobile for iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Beer Me! mobile for iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79C079E31FD99AAC00128C6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				79C079EC1FD99AAC00128C6D /* LaunchScreen.storyboard */,
 				79C079EF1FD99AAC00128C6D /* Info.plist */,
 				79B5D95D1FE07BC0001CDF0A /* Brewery.swift */,
+				7973673F1FE1AF1A000A3430 /* DataEngine.swift */,
 			);
 			path = "Beer Me! mobile for iOS";
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				79C079E61FD99AAC00128C6D /* ViewController.swift in Sources */,
 				79B5D95E1FE07BC0001CDF0A /* Brewery.swift in Sources */,
 				79C079E41FD99AAC00128C6D /* AppDelegate.swift in Sources */,
+				797367401FE1AF1A000A3430 /* DataEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

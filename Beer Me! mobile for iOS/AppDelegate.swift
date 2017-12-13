@@ -16,6 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // See https://github.com/stephencelis/SQLite.swift/issues/760
+        //where FireModel.projectRoot = "mysqlitedatabase"
+//        DataEngine.copyFileIfNeeded(dbFileName: FireModel.projectRoot.appending(".sqlite"))
+        DataEngine.copyFileIfNeeded(dbFileName: "beerme".appending(".sqlite3"))
+        DataEngine().start()
         return true
     }
 

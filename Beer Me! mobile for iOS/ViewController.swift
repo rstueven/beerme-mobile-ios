@@ -31,31 +31,30 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // TODO: Refactor database stuff into its own class(es)
     func checkAndInitDatabase() -> Connection? {
-        let fileManager = FileManager.default
         let dbFilename = "beerme.sqlite3"
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-
-        guard documentsURL.count != 0 else {
-            // TODO: Actual error handling
-            print("ERROR in checkAndInitDatabase(): Could not find documents URL")
-            return nil
-        }
-
-        let dbURL = documentsURL.first!.appendingPathComponent(dbFilename)
-
-        if !((try? dbURL.checkResourceIsReachable()) ?? false) {
-            print("INFO in checkAndInitDatabase(): Database does not exist in documents folder")
-            let bundleURL = Bundle.main.resourceURL?.appendingPathComponent(dbFilename)
+        let path = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory, .userDomainMask, true
+            )[0] as String
+        let dbURL = URL(fileURLWithPath: path)
+        let filePath = dbURL.appendingPathComponent(dbFilename).path
+        let fileManager = FileManager.default
+        
+        if !fileManager.fileExists(atPath: filePath) {
+            // Database doesn't exist
+            let finalDatabaseURL = dbURL.appendingPathComponent(dbFilename)
+            let documentsURL = Bundle.main.resourceURL?.appendingPathComponent(dbFilename)
+            
             do {
-                try fileManager.copyItem(atPath: (bundleURL?.path)!, toPath: dbURL.path)
+                try fileManager.copyItem(at: documentsURL!, to: finalDatabaseURL)
             } catch let error as NSError {
                 print("ERROR in checkAndInitDatabase(): Can't copy file: \(error.description)")
             }
         }
         
         do {
-            return try Connection(dbURL.path, readonly: true)
+            return try Connection(dbURL.appendingPathComponent(dbFilename).path, readonly: true)
         } catch let error as NSError {
             print("ERROR in checkAndInitDatabase(): DB connection failed: \(error.description)")
             return nil

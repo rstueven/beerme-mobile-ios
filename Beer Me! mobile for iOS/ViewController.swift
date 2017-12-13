@@ -8,22 +8,30 @@
 
 import UIKit
 import SQLite
+import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
+    @IBOutlet weak var map: MKMapView!
+    
     var tables: [String: Table] = ["brewery": Table("brewery"), "beer": Table("beer"), "style": Table("style")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let db = checkAndInitDatabase() {
-            print("DATABASE FILE: \(db.description)")
-            DispatchQueue.main.async {
-                self.updateDatabase(db: db)
-            }
-        } else {
+        guard let db = checkAndInitDatabase() else {
             print("ERROR in viewDidLoad(): failed to initialize db")
+            // throw instead of return?
+            return
         }
+        
+        print("DATABASE FILE: \(db.description)")
+        DispatchQueue.main.async {
+            self.updateDatabase(db: db)
+        }
+        
+        setupMap()
+        loadBreweries(db)
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,15 +92,15 @@ class ViewController: UIViewController {
                             let stringSeparator = "#####"
                             if let contentArray = dataString?.components(separatedBy: stringSeparator) {
                                 if contentArray.count >= 1 && contentArray[0].count > 1 {
-                                    print("Brewery")
+//                                    print("Brewery")
                                     self.updateBreweryData(db, contentArray[0])
                                 }
                                 if contentArray.count >= 2 && contentArray[1].count > 1 {
-                                    print("Beer")
+//                                    print("Beer")
                                     self.updateBeerData(db, contentArray[1])
                                 }
-                                if contentArray.count >= 3 && contentArray[2].count > 1{
-                                    print("Style")
+                                if contentArray.count >= 3 && contentArray[2].count > 1 {
+//                                    print("Style")
                                     self.updateStyleData(db, contentArray[2])
                                 }
                             }
@@ -123,22 +131,48 @@ class ViewController: UIViewController {
 //    }
     
     func updateBreweryData(_ db:Connection, _ data: String) {
-        var brewery:Brewery
-        
-        let recordStrings = data.components(separatedBy: "\n")
-        for recordString in recordStrings {
-            brewery = Brewery()
-            brewery.initFromCSV(recordString)
-            print(brewery.description)
-            brewery.save(db)
-        }
+//        print(data)
+//        var brewery:Brewery
+//
+//        let recordStrings = data.components(separatedBy: "\n")
+//        for recordString in recordStrings {
+//            brewery = Brewery(fromCSV: recordString)
+//            print(brewery.description)
+//            brewery.save(db)
+//        }
     }
     
     func updateBeerData(_ db:Connection, _ data: String) {
-        print(data)
+//        print(data)
     }
     
     func updateStyleData(_ db:Connection, _ data: String) {
-        print(data)
+//        print(data)
+    }
+    
+    func setupMap() {
+        let latDelta:CLLocationDegrees = 0.05
+        let lngDelta:CLLocationDegrees = 0.05
+        let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lngDelta)
+        
+        let lat:CLLocationDegrees = 41.287407
+        let lng:CLLocationDegrees = -96.097846
+        let location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        map.setRegion(region, animated: true)
+    }
+    
+    func loadBreweries(_ db:Connection) {
+        let farnamHouseID:Int64 = 14599
+        let farnamHouse = Brewery(database: db, byID: farnamHouseID)
+        print(farnamHouse.description)
+        let location = CLLocationCoordinate2D(latitude: farnamHouse.lat, longitude: farnamHouse.lng)
+        let annotation = MKPointAnnotation()
+        annotation.title = farnamHouse.name
+        annotation.subtitle = farnamHouse.address
+        annotation.coordinate = location
+        map.addAnnotation(annotation)
     }
 }

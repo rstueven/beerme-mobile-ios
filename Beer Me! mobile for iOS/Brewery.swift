@@ -36,10 +36,10 @@ class Brewery {
     var services:Int64! = 0
     var image:String? = ""
     var updated:String! = ""
-
-    func initFromCSV(_ csv:String) {
-        print(csv)
-        let record = csv.components(separatedBy: "|")
+    
+    init(fromCSV:String) {
+        print(fromCSV)
+        let record = fromCSV.components(separatedBy: "|")
         if record.count == 12 {
             id = Int64(record[0])
             name = record[1]
@@ -54,7 +54,32 @@ class Brewery {
             image = record[10]
             updated = record[11]
         } else {
-            print("WARNING in Brewery.initFromCSV(\(csv)): Field count \(record.count)")
+            print("WARNING in Brewery.initFromCSV(\(fromCSV)): Field count \(record.count)")
+        }
+    }
+    
+    init(database:Connection, byID:Int64) {
+        print("Brewery.init(byID:\(byID))")
+        let query = table.filter(idField == byID)
+        do {
+            for row in try database.prepare(query) {
+                id = row[idField]
+                name = row[nameField]
+                address = row[addressField]
+                lat = row[latField]
+                lng = row[lngField]
+                status = row[statusField]
+                hours = row[hoursField]
+                phone = row[phoneField]
+                web = row[webField]
+                services = row[servicesField]
+                image = row[imageField]
+                updated = row[updatedField]
+            }
+        } catch let Result.error(message, code, statement) {
+            print("ERROR in Brewery.init(\(byID)): \(message) (\(code)) in \(String(describing: statement))")
+        } catch let error {
+            print("ERROR in Brewery.init(\(byID)): \(error)")
         }
     }
     

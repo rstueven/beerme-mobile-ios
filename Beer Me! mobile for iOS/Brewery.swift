@@ -14,8 +14,8 @@ class Brewery {
     let idField = Expression<Int64>("_id")
     let nameField = Expression<String>("name")
     let addressField = Expression<String>("address")
-    let latField = Expression<Double>("lat")
-    let lngField = Expression<Double>("lng")
+    let latField = Expression<Double>("latitude")
+    let lngField = Expression<Double>("longitude")
     let statusField = Expression<Int64>("status")
     let hoursField = Expression<String?>("hours")
     let phoneField = Expression<String?>("phone")
@@ -60,17 +60,38 @@ class Brewery {
     
     func save(_ db:Connection) {
         if id <= 0 {
-            print("WARNING in save(): Invalid ID \(id)")
+            print("WARNING in save(): Invalid ID <\(id!)>")
         } else {
-            let query = table.filter(idField == id)
+//            let query = table.filter(idField == id).limit(1)
             do {
-                var row
-                for tempRow in try db.prepare(query) {
-                    print("RESULT: \(tempRow[idField])")
-                    row = tempRow
-                }
-            } catch let error as NSError {
-                print("ERROR in Brewery.save(): \(error.description)")
+//                var found:Int64 = 0
+//                for tempRow in try db.prepare(query) {
+//                    found = tempRow[idField]
+//                }
+//
+//                if found > 0 {
+//                    print("UPDATE \(found)")
+//                } else {
+//                    print("INSERT \(id)")
+//                }
+                try db.run(table.insert(or: .replace,
+                                        idField <- id,
+                                        nameField <- name,
+                                        addressField <- address,
+                                        latField <- lat,
+                                        lngField <- lng,
+                                        statusField <- status,
+                                        hoursField <- hours,
+                                        phoneField <- phone,
+                                        webField <- web,
+                                        servicesField <- services,
+                                        imageField <- image,
+                                        updatedField <- updated
+                ))
+            } catch let Result.error(message, code, statement) {
+                print("ERROR in Brewery.save(): \(message) (\(code)) in \(statement)")
+            } catch let error {
+                print("ERROR in Brewery.save(): \(error)")
             }
         }
     }

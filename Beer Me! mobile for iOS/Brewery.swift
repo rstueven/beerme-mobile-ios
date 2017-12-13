@@ -59,7 +59,7 @@ class Brewery {
     }
     
     init(database:Connection, byID:Int64) {
-        print("Brewery.init(byID:\(byID))")
+//        print("Brewery.init(byID:\(byID))")
         let query = table.filter(idField == byID)
         do {
             for row in try database.prepare(query) {
@@ -114,11 +114,27 @@ class Brewery {
                                         updatedField <- updated
                 ))
             } catch let Result.error(message, code, statement) {
-                print("ERROR in Brewery.save(): \(message) (\(code)) in \(statement)")
+                print("ERROR in Brewery.save(): \(message) (\(code)) in \(String(describing: statement))")
             } catch let error {
                 print("ERROR in Brewery.save(): \(error)")
             }
         }
+    }
+    
+    static func getAll(database:Connection) -> [Brewery] {
+        var breweries = [Brewery]()
+        
+        do {
+            for brewery in try database.prepare(Table("brewery")) {
+                breweries.append(Brewery(database: database, byID: brewery[Expression<Int64>("_id")]))
+            }
+        } catch let Result.error(message, code, statement) {
+            print("ERROR in Brewery.getAll(): \(message) (\(code)) in \(String(describing: statement))")
+        } catch let error {
+            print("ERROR in Brewery.getAll(): \(error)")
+        }
+        
+        return breweries
     }
     
     var description:String {

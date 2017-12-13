@@ -165,14 +165,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func loadBreweries(_ db:Connection) {
-        let farnamHouseID:Int64 = 14599
-        let farnamHouse = Brewery(database: db, byID: farnamHouseID)
-        print(farnamHouse.description)
-        let location = CLLocationCoordinate2D(latitude: farnamHouse.lat, longitude: farnamHouse.lng)
-        let annotation = MKPointAnnotation()
-        annotation.title = farnamHouse.name
-        annotation.subtitle = farnamHouse.address
-        annotation.coordinate = location
-        map.addAnnotation(annotation)
+//        let farnamHouseID:Int64 = 14599
+//        let farnamHouse = Brewery(database: db, byID: farnamHouseID)
+//        print(farnamHouse.description)
+//        let location = CLLocationCoordinate2D(latitude: farnamHouse.lat, longitude: farnamHouse.lng)
+//        let annotation = MKPointAnnotation()
+//        annotation.title = farnamHouse.name
+//        annotation.subtitle = farnamHouse.address
+//        annotation.coordinate = location
+//        map.addAnnotation(annotation)
+        
+        let breweries = Brewery.getAll(database: db)
+        print("COUNT: \(breweries.count)")
+        for brewery in breweries {
+            let location = CLLocationCoordinate2D(latitude: brewery.lat, longitude: brewery.lng)
+            let annotation = MKPointAnnotation()
+            annotation.title = brewery.name
+            annotation.subtitle = brewery.address
+            annotation.coordinate = location
+            map.addAnnotation(annotation)
+        }
+        
     }
 }

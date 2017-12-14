@@ -46,23 +46,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
             .documentDirectory, .userDomainMask, true
             )[0] as String
         let dbURL = URL(fileURLWithPath: path)
-        let filePath = dbURL.appendingPathComponent(dbFilename).path
-        let fileManager = FileManager.default
-        
-        if !fileManager.fileExists(atPath: filePath) {
-            // Database doesn't exist
-            let finalDatabaseURL = dbURL.appendingPathComponent(dbFilename)
-            let documentsURL = Bundle.main.resourceURL?.appendingPathComponent(dbFilename)
-            
-            do {
-                try fileManager.copyItem(at: documentsURL!, to: finalDatabaseURL)
-            } catch let error as NSError {
-                print("ERROR in checkAndInitDatabase(): Can't copy file: \(error.description)")
-            }
-        }
         
         do {
-            return try Connection(dbURL.appendingPathComponent(dbFilename).path, readonly: true)
+            return try Connection(dbURL.appendingPathComponent(dbFilename).path, readonly: false)
         } catch let error as NSError {
             print("ERROR in checkAndInitDatabase(): DB connection failed: \(error.description)")
             return nil
@@ -92,15 +78,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
                             let stringSeparator = "#####"
                             if let contentArray = dataString?.components(separatedBy: stringSeparator) {
                                 if contentArray.count >= 1 && contentArray[0].count > 1 {
-//                                    print("Brewery")
+                                    print("Brewery")
                                     self.updateBreweryData(db, contentArray[0])
                                 }
                                 if contentArray.count >= 2 && contentArray[1].count > 1 {
-//                                    print("Beer")
+                                    print("Beer")
                                     self.updateBeerData(db, contentArray[1])
                                 }
                                 if contentArray.count >= 3 && contentArray[2].count > 1 {
-//                                    print("Style")
+                                    print("Style")
                                     self.updateStyleData(db, contentArray[2])
                                 }
                             }
@@ -132,14 +118,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func updateBreweryData(_ db:Connection, _ data: String) {
 //        print(data)
-//        var brewery:Brewery
-//
-//        let recordStrings = data.components(separatedBy: "\n")
-//        for recordString in recordStrings {
-//            brewery = Brewery(fromCSV: recordString)
-//            print(brewery.description)
-//            brewery.save(db)
-//        }
+        var brewery:Brewery
+
+        let recordStrings = data.components(separatedBy: "\n")
+        for recordString in recordStrings {
+            brewery = Brewery(fromCSV: recordString)
+            print(brewery.description)
+            brewery.save(db)
+        }
     }
     
     func updateBeerData(_ db:Connection, _ data: String) {
@@ -165,16 +151,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func loadBreweries(_ db:Connection) {
-//        let farnamHouseID:Int64 = 14599
-//        let farnamHouse = Brewery(database: db, byID: farnamHouseID)
-//        print(farnamHouse.description)
-//        let location = CLLocationCoordinate2D(latitude: farnamHouse.lat, longitude: farnamHouse.lng)
-//        let annotation = MKPointAnnotation()
-//        annotation.title = farnamHouse.name
-//        annotation.subtitle = farnamHouse.address
-//        annotation.coordinate = location
-//        map.addAnnotation(annotation)
-        
         let breweries = Brewery.getAll(database: db)
         print("COUNT: \(breweries.count)")
         for brewery in breweries {
@@ -185,6 +161,5 @@ class ViewController: UIViewController, MKMapViewDelegate {
             annotation.coordinate = location
             map.addAnnotation(annotation)
         }
-        
     }
 }

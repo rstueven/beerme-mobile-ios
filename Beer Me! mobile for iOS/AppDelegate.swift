@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // See https://github.com/stephencelis/SQLite.swift/issues/760
         //where FireModel.projectRoot = "mysqlitedatabase"
 //        DataEngine.copyFileIfNeeded(dbFileName: FireModel.projectRoot.appending(".sqlite"))
-        DataEngine.copyFileIfNeeded(dbFileName: "beerme".appending(".sqlite3"))
+        DataEngine.copyFileIfNeeded(dbFileName: "beerme.sqlite3")
         DataEngine().start()
         return true
     }
